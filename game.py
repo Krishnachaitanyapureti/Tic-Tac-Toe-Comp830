@@ -17,13 +17,13 @@ class TicTacToe():
             print('| ' + ' | '.join(row) + ' |')
 
     @staticmethod
-    def print_board_nums():
+    def board_nums():
         # 0 | 1 | 2
         number_board = [[str(i) for i in range(j*3, (j+1)*3)] for j in range(3)]
         for row in number_board:
             print('| ' + ' | '.join(row) + ' |')
 
-    def make_move(self, square, letter):
+    def move(self, square, letter):
         if self.board[square] == ' ':
             self.board[square] = letter
             if self.winner(square, letter):
@@ -60,14 +60,14 @@ class TicTacToe():
     def num_empty_squares(self):
         return self.board.count(' ')
 
-    def available_moves(self):
+    def available(self):
         return [i for i, x in enumerate(self.board) if x == " "]
 
 
 def play(game, x_player, o_player, print_game=True):
 
     if print_game:
-        game.print_board_nums()
+        game.board_nums()
 
     letter = 'X'
     while game.empty_squares():
@@ -75,7 +75,7 @@ def play(game, x_player, o_player, print_game=True):
             square = o_player.get_move(game)
         else:
             square = x_player.get_move(game)
-        if game.make_move(square, letter):
+        if game.move(square, letter):
 
             if print_game:
                 print(letter + ' makes a move to square {}'.format(square))

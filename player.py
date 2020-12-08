@@ -21,7 +21,7 @@ class Human(Player):
             square = input(self.letter + '\'s turn. Input move (0-9): ')
             try:
                 val = int(square)
-                if val not in game.available_moves():
+                if val not in game.available():
                     raise ValueError
                 valid_square = True
             except ValueError:
@@ -34,8 +34,8 @@ class Computer(Player):
         super().__init__(letter)
 
     def get_move(self, game):
-        if len(game.available_moves()) == 9:
-            square = random.choice(game.available_moves())
+        if len(game.available()) == 9:
+            square = random.choice(game.available())
         else:
             square = self.minimax(game, self.letter)['position']
         return square
@@ -55,14 +55,14 @@ class Computer(Player):
             best = {'position': None, 'score': -math.inf}  # each score should maximize
         else:
             best = {'position': None, 'score': math.inf}  # each score should minimize
-        for possible_move in state.available_moves():
-            state.make_move(possible_move, player)
+        for possible in state.available():
+            state.move(possible, player)
             score = self.minimax(state, other_player)  # simulate a game after making that move
 
             # undo move
-            state.board[possible_move] = ' '
+            state.board[possible] = ' '
             state.current_winner = None
-            score['position'] = possible_move  # this represents the move optimal next move
+            score['position'] = possible  # this represents the move optimal next move
 
             if player == max_player:  # X is max player
                 if score['score'] > best['score']:
